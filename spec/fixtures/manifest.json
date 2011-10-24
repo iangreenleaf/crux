@@ -1,0 +1,14 @@
+{
+  "name": "A test script",
+  "version": "0.1.0",
+  "description": "This is a stub used for testing",
+  "content_scripts": [
+    {
+      "matches": ["http://crux.local/*"],
+      "js": ["test.user.js"]
+    }
+  ],
+  "permissions": [
+    "http://crux.local/*"
+  ]
+}

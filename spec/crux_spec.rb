@@ -2,20 +2,28 @@ require 'spec_helper'
 
 describe "crux" do
   before do
-    File.makedirs sandbox_dir unless File.directory? sandbox_dir
+    Dir.mkdir sandbox_dir unless File.directory? sandbox_dir
     clean_sandbox
     #TODO jankety
+    @old_wd = Dir.pwd
     Dir.chdir sandbox_dir
   end
-  after { clean_sandbox }
+  after do
+    Dir.chdir @old_wd
+    clean_sandbox
+  end
 
   describe "manifest file" do
     before do
       FileUtils.cp "#{test_root}/fixtures/test.user.js", sandbox_dir
-      require "#{test_root}/../build.rb"
+      #TODO super jankety
+      `bundle exec #{test_root}/../build.rb`
     end
     it "exists in build dir" do
       File.exists?("build/manifest.json").should be_true
+    end
+    it "has correct contents" do
+      json_file("#{sandbox_dir}/build/manifest.json").should == json_file("#{test_root}/fixtures/manifest.json")
     end
   end
 end

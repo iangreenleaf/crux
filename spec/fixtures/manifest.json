@@ -4,8 +4,8 @@
   "description": "This is a stub used for testing",
   "content_scripts": [
     {
-      "js": ["test.user.js"]
       "matches": ["http://crux.local/foo/*", "http://crux.local/bar/*"],
+      "js": ["vendor/jquery.min.js", "test.user.js"]
     }
   ],
   "permissions": ["http://crux.local/foo/*", "http://crux.local/bar/*"]

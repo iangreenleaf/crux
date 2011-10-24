@@ -13,17 +13,24 @@ describe "crux" do
     clean_sandbox
   end
 
-  describe "manifest file" do
+  context "regular build" do
     before do
       FileUtils.cp "#{test_root}/fixtures/test.user.js", sandbox_dir
       #TODO super jankety
       `bundle exec #{test_root}/../build.rb`
     end
-    it "exists in build dir" do
-      File.exists?("build/manifest.json").should be_true
+
+    describe "manifest file" do
+      it "exists in build dir" do
+        File.exists?("build/manifest.json").should be_true
+      end
+      it "has correct contents" do
+        json_file("#{sandbox_dir}/build/manifest.json").should == json_file("#{test_root}/fixtures/manifest.json")
+      end
     end
-    it "has correct contents" do
-      json_file("#{sandbox_dir}/build/manifest.json").should == json_file("#{test_root}/fixtures/manifest.json")
+
+    it "fetches @require urls" do
+      File.exists?("build/vendor/jquery.min.js").should be_true
     end
   end
 end

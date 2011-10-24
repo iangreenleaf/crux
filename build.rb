@@ -8,7 +8,7 @@ script_file = Dir.glob("*.user.js").first
 project_name = File.basename script_file, ".user.js"
 puts project_name
 
-props = { :include => [], :require => [] }
+props = { :include => [], :require => [], :local_require => [] }
 
 IO.readlines(script_file).each do |line|
   if line =~ /\s*\/\/\s*@(\w+)\s+(.*)/
@@ -21,6 +21,15 @@ IO.readlines(script_file).each do |line|
   end
 end
 
+Dir.mkdir "build"
+Dir.mkdir "build/vendor"
+
+props[:require].each do |url|
+  #TODO extra jankety
+  `wget --directory-prefix="build/vendor" #{url}`
+  props[:local_require] << "vendor/#{File.basename url}"
+end
+
 manifest_obj = {
   :name => props[:name],
   :version => "0.1.0", #TODO
@@ -28,13 +37,12 @@ manifest_obj = {
   :content_scripts => [
     {
       :matches => props[:include],
-      :js => [ script_file ],
+      :js => props[:local_require] << script_file,
     },
   ],
   :permissions => props[:include],
 }
 
-Dir.mkdir "build"
 manifest = File.new "build/manifest.json", "w"
 manifest << JSON.generate(manifest_obj)
 manifest.close

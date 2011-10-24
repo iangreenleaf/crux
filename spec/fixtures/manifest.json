@@ -4,11 +4,9 @@
   "description": "This is a stub used for testing",
   "content_scripts": [
     {
-      "matches": ["http://crux.local/*"],
       "js": ["test.user.js"]
+      "matches": ["http://crux.local/foo/*", "http://crux.local/bar/*"],
     }
   ],
-  "permissions": [
-    "http://crux.local/*"
-  ]
+  "permissions": ["http://crux.local/foo/*", "http://crux.local/bar/*"]
 }

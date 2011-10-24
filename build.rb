@@ -8,10 +8,16 @@ script_file = Dir.glob("*.user.js").first
 project_name = File.basename script_file, ".user.js"
 puts project_name
 
-props = {}
+props = { :include => [], :require => [] }
+
 IO.readlines(script_file).each do |line|
   if line =~ /\s*\/\/\s*@(\w+)\s+(.*)/
-    props[$1.to_sym] = $2 # TODO handle arrays
+    key = $1.to_sym
+    if props[key] && props[key].respond_to?(:<<)
+      props[key] << $2
+    else
+      props[key] = $2
+    end
   end
 end
 
@@ -21,11 +27,11 @@ manifest_obj = {
   :description => props[:description],
   :content_scripts => [
     {
-      :matches => [ props[:include] ],
+      :matches => props[:include],
       :js => [ script_file ],
     },
   ],
-  :permissions => [ props[:include] ],
+  :permissions => props[:include],
 }
 
 Dir.mkdir "build"

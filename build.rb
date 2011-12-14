@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require "json"
+require "net/http"
 
 project_name = File.basename File.expand_path(".")
 
@@ -25,8 +26,9 @@ Dir.mkdir "build"
 Dir.mkdir "build/vendor"
 
 props[:require].each do |url|
-  #TODO extra jankety
-  `wget --directory-prefix="build/vendor" #{url}`
+  dest = File.new "build/vendor/#{File.basename url}", "w"
+  dest << Net::HTTP.get( URI.parse( url ) )
+  dest.close
   props[:local_require] << "vendor/#{File.basename url}"
 end
 

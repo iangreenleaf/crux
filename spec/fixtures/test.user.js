@@ -5,6 +5,7 @@
 // @include        http://crux.local/foo/*
 // @include        http://crux.local/bar/*
 // @require        http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js
+// @version        0.1.1
 // ==/UserScript==
 
 echo("Hello!");

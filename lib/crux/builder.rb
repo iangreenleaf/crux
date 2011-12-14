@@ -8,7 +8,6 @@ module Crux
 
       script_file = Dir.glob("*.user.js").first
       project_name = File.basename script_file, ".user.js"
-      puts project_name
 
       props = { :include => [], :require => [], :local_require => [], :version => "" }
 

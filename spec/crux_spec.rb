@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'crux/builder'
 
 describe "crux" do
   before do
@@ -16,8 +17,7 @@ describe "crux" do
   context "regular build" do
     before do
       FileUtils.cp "#{test_root}/fixtures/test.user.js", sandbox_dir
-      #TODO super jankety
-      `bundle exec #{test_root}/../build.rb`
+      Crux::Builder.build
     end
 
     describe "manifest file" do

@@ -9,7 +9,7 @@ def clean_sandbox
 end
 
 def test_root
-  @test_root ||= File.expand_path File.dirname(__FILE__) + "/spec"
+  @test_root ||= File.expand_path File.dirname(__FILE__)
 end
 
 def json_file file

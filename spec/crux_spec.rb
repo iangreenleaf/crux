@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'crux/builder'
 
 describe "crux" do
   before do

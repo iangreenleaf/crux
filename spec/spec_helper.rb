@@ -1,5 +1,7 @@
 require 'json'
 
+require 'crux/builder'
+
 def sandbox_dir
   "#{test_root}/sandbox"
 end

@@ -18,4 +18,26 @@ describe Crux::Builder do
       attrs[:name].should == "Quux"
     end
   end
+
+  describe ".build_manifest" do
+    it "builds hash" do
+      props = {
+        :name => "Foo",
+        :version => "0.1.0",
+        :description => "Unicorns.",
+        :include => [ "foo", "bar" ],
+        :local_require => [ "vendor/jquery" ],
+      }
+      manifest = Crux::Builder.build_manifest "myscript.js", props
+      manifest.should == {
+        :name => "Foo",
+        :version => "0.1.0",
+        :description => "Unicorns.",
+        :content_scripts => [
+          { :matches => [ "foo", "bar" ], :js => [ "vendor/jquery", "myscript.js" ] }
+        ],
+        :permissions => [ "foo", "bar" ]
+      }
+    end
+  end
 end

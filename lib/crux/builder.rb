@@ -21,22 +21,24 @@ module Crux
         props[:local_require] << "vendor/#{File.basename url}"
       end
 
-      manifest_obj = {
-        :name => props[:name],
-        :version => props[:version],
-        :description => props[:description],
-        :content_scripts => [
-          {
-        :matches => props[:include],
-        :js => props[:local_require] << script_file,
-      },
-      ],
-      :permissions => props[:include],
-      }
+      manifest_obj = build_manifest script_file, props
 
       manifest = File.new "build/manifest.json", "w"
       manifest << JSON.generate(manifest_obj)
       manifest.close
+    end
+
+    def self.build_manifest(script_file, props)
+      {
+        :name => props[:name],
+        :version => props[:version],
+        :description => props[:description],
+        :content_scripts => [{
+          :matches => props[:include],
+          :js => props[:local_require] << script_file,
+        }],
+        :permissions => props[:include],
+      }
     end
 
     def self.parse_attrs(lines)

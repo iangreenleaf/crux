@@ -1,3 +1,4 @@
+require 'crux/version.rb'
+
 module Crux
-  # Your code goes here...
 end
